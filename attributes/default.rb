@@ -175,21 +175,18 @@ default['prometheus']['flags']['web.use-local-assets']                          
 # Path to static asset directory, available at /user.
 default['prometheus']['flags']['web.user-assets']                                         = ''
 
+default['prometheus']['alertmanager']['dir'] = '/opt/alertmanager'
+
 # Location of Alertmanager binary
-default['prometheus']['alertmanager']['binary']                                           = "#{node['prometheus']['dir']}/alertmanager"
+default['prometheus']['alertmanager']['binary']                                           = "#{node['prometheus']['alertmanager']['dir']}/alertmanager"
 
-# Alertmanager version to build
-default['prometheus']['alertmanager']['version']                                          = '0.0.4'
-
-# Alertmanager source repository.
-default['prometheus']['alertmanager']['git_repository']                                   = 'https://github.com/prometheus/alertmanager.git'
-
-# Alertmanager source repository git reference.  Defaults to version tag.  Can
-# also be set to a branch or master.
-default['prometheus']['alertmanager']['git_revision']                                     = node['prometheus']['alertmanager']['version']
+# Alertmanager version
+default['prometheus']['alertmanager']['version']                                          = '0.5.0'
+default['prometheus']['alertmanager']['package_version']                                  = "#{node['prometheus']['alertmanager']['version']}-1"
+default['prometheus']['alertmanager']['package_name']                                     = 'alertmanager'
 
 # Alertmanager configuration file name.
-default['prometheus']['alertmanager']['config.file']                                      = "#{node['prometheus']['dir']}/alertmanager.conf"
+default['prometheus']['alertmanager']['config.file']                                      = "#{node['prometheus']['alertmanager']['dir']}/alertmanager.conf"
 
 # Alertmanager configuration chef template name.
 default['prometheus']['alertmanager']['config_cookbook_name']                             = 'prometheus'
