@@ -14,7 +14,6 @@ end
 
 depends 'apt'
 depends 'yum'
-depends 'build-essential'
 depends 'runit', '~> 1.5'
 depends 'bluepill', '~> 2.3'
 depends 'accumulator'
