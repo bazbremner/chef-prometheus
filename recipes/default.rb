@@ -75,5 +75,5 @@ end
 
 # -- Do the install -- #
 
-include_recipe "prometheus::#{node['prometheus']['install_method']}"
+include_recipe "prometheus::package"
 include_recipe 'prometheus::service'

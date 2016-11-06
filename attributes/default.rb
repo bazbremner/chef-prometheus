@@ -12,9 +12,6 @@ default['prometheus']['binary']                                                 
 # Location of Prometheus pid file
 default['prometheus']['pid']                                                              = '/var/run/prometheus.pid'
 
-# Install method.  Currently supports source and binary.
-default['prometheus']['install_method']                                                   = 'source'
-
 # Init style.
 case node['platform_family']
 when 'debian'
@@ -37,14 +34,9 @@ end
 default['prometheus']['log_dir']                                                          = '/var/log/prometheus'
 
 # Prometheus version to build
-default['prometheus']['version']                                                          = '0.15.1'
-
-# Prometheus source repository.
-default['prometheus']['source']['git_repository']                                         = 'https://github.com/prometheus/prometheus.git'
-
-# Prometheus source repository git reference.  Defaults to version tag.  Can
-# also be set to a branch or master.
-default['prometheus']['source']['git_revision']                                           = node['prometheus']['version']
+default['prometheus']['version']                                                          = '1.3.1'
+default['prometheus']['package_version']                                                  = "#{node['prometheus']['version']}-3"
+default['prometheus']['package_name']                                                     = 'prometheus'
 
 # System user to use
 default['prometheus']['user']                                                             = 'prometheus'
@@ -54,18 +46,6 @@ default['prometheus']['group']                                                  
 
 # Set if you want ot use the root user
 default['prometheus']['use_existing_user']                                                = false
-
-# Location for Prometheus pre-compiled binary.
-# Default for testing purposes
-default['prometheus']['binary_url']                                                       = 'https://github.com/prometheus/prometheus/releases/download/0.15.1/prometheus-0.15.1.linux-amd64.tar.gz'
-
-# Checksum for pre-compiled binary
-# Default for testing purposes
-default['prometheus']['checksum']                                                         = '4b283ce4bf194619d03883a9cf23bd4566a5e5c3cc483b1192a1cd3c4a756118'
-
-# If file extension of your binary can not be determined by the URL
-# then define it here. Example 'tar.bz2'
-default['prometheus']['file_extension']                                                   = ''
 
 # Should we allow external config changes?
 default['prometheus']['allow_external_config']                                            = false
