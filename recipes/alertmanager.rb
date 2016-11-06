@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'build-essential::default'
-
 user node['prometheus']['user'] do
   system true
   shell '/bin/false'
@@ -42,6 +40,10 @@ end
 
 # -- Write our Config -- #
 
+package node['prometheus']['alertmanager']['package_name'] do
+  version node['prometheus']['alertmanager']['package_version']
+end
+
 template node['prometheus']['alertmanager']['config.file'] do
   cookbook  node['prometheus']['alertmanager']['config_cookbook_name']
   source    node['prometheus']['alertmanager']['config_template_name']
@@ -52,24 +54,6 @@ template node['prometheus']['alertmanager']['config.file'] do
 end
 
 # -- Do the install -- #
-
-# These packages are needed go build
-%w( curl git-core mercurial gzip sed ).each do |pkg|
-  package pkg
-end
-
-git "#{Chef::Config[:file_cache_path]}/alertmanager-#{node['prometheus']['alertmanager']['version']}" do
-  repository node['prometheus']['alertmanager']['git_repository']
-  revision node['prometheus']['alertmanager']['git_revision']
-  action :checkout
-end
-
-bash 'compile_alertmanager_source' do
-  cwd "#{Chef::Config[:file_cache_path]}/alertmanager-#{node['prometheus']['alertmanager']['version']}"
-  code "make && mv alertmanager #{node['prometheus']['dir']}"
-
-  notifies :restart, 'service[alertmanager]'
-end
 
 template '/etc/init/alertmanager.conf' do
   source 'upstart/alertmanager.service.erb'
